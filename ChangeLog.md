@@ -1,5 +1,9 @@
 # ChangeLog for `hydra-coding-standards`.
 
+## 0.3.0
+
+* Add `fourmolu` settings.
+
 ## 0.2.0
 
 * Add `werror` checks and `weeder` check for all listed `haskellPackages`.
