@@ -101,6 +101,27 @@ in
 
           allWerrors = lib.attrsets.mergeAttrsList (map (x: componentsToWerrors x.components.library.package.identifier.name x) config.coding.standards.hydra.haskellPackages);
 
+          fourmolu-wrapped = pkgs.writeScriptBin "fourmolu-wrapped" ''
+            #!/bin/sh
+            ${hcsPkgs.haskellPackages.fourmolu}/bin/fourmolu $@ \
+               --indentation 2 \
+               --comma-style leading \
+               --record-brace-space false \
+               --indent-wheres false \
+               --import-export-style "diff-friendly" \
+               --respectful true \
+               --haddock-style single-line \
+               --newlines-between-decls 1 \
+               --single-constraint-parens never \
+               --fixity "infixr 0 $" \
+               --fixity "infixr 1 &" \
+               --fixity "infixr 3 <|>" \
+               --fixity "infixr 2 ||" \
+               --fixity "infixr 3 &&" \
+               --fixity "infixr 1 <&>" \
+               --fixity "infixr 4 <$>" \
+               --fixity "infixr 4 <*>"
+          '';
         in
         with config.coding.standards.hydra; with pkgs.haskell.lib; mkIf enable
           {
@@ -111,7 +132,7 @@ in
               };
               fourmolu = {
                 enable = hasFiles [ ".hs" ];
-                package = hcsPkgs.haskellPackages.fourmolu;
+                package = fourmolu-wrapped;
               };
               hlint = {
                 enable = hasFiles [ ".hs" ];
