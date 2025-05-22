@@ -33,6 +33,10 @@ in
               type = types.listOf types.attrs;
               default = [ ];
             };
+            weeder = mkOption {
+              type = types.package;
+              default = pkgs.haskellPackages.weeder;
+            };
           };
         };
       });
@@ -58,6 +62,26 @@ in
           cabalFiles = filterFiles (hasAnyExt [ ".cabal" ]);
 
           addWerror = x: x.override { ghcOptions = [ "-Werror" ]; };
+
+          componentsToHieDirectories = x:
+            [ x.components.library.hie ]
+            ++ lib.concatLists
+              (map
+                (y:
+                  lib.mapAttrsToList
+                    (k: v:
+                      v.hie
+                    )
+                    x.components."${y}") [ "benchmarks" "exes" "sublibs" "tests" ]);
+
+          componentsToWeederArgs = x:
+            builtins.concatStringsSep " " (map (z: "--hie-directory ${z}") (componentsToHieDirectories x));
+
+          weeder = pkgs.runCommand "weeder" { buildInputs = [ config.coding.standards.hydra.weeder ]; } ''
+            mkdir -p $out
+            weeder --config ${self}/weeder.toml \
+              ${builtins.concatStringsSep " " (map componentsToWeederArgs config.coding.standards.hydra.haskellPackages)}
+          '';
 
           componentsToWerrors = n: x:
             builtins.listToAttrs
@@ -102,7 +126,7 @@ in
                 package = hcsPkgs.statix;
               };
             };
-            checks = allWerrors;
+            checks = (mkIf (hasFiles [ ".hs" ]) { inherit weeder; }) // allWerrors;
           };
     };
 }
