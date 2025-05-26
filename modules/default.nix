@@ -101,7 +101,7 @@ in
 
           allWerrors = lib.attrsets.mergeAttrsList (map (x: componentsToWerrors x.components.library.package.identifier.name x) config.coding.standards.hydra.haskellPackages);
 
-          fourmolu-wrapped = pkgs.writeScriptBin "fourmolu-wrapped" ''
+          fourmolu-wrapped = pkgs.writeScriptBin "fourmolu" ''
             #!/bin/sh
             ${hcsPkgs.haskellPackages.fourmolu}/bin/fourmolu $@ \
                --indentation 2 \

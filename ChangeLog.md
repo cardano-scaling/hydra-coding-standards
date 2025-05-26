@@ -1,5 +1,9 @@
 # ChangeLog for `hydra-coding-standards`.
 
+## 0.3.1
+
+* Fix executable name of `fourmolu-wrapped`.
+
 ## 0.3.0
 
 * Add `fourmolu` settings.
