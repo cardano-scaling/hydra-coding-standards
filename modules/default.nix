@@ -101,6 +101,11 @@ in
 
           allWerrors = lib.attrsets.mergeAttrsList (map (x: componentsToWerrors x.components.library.package.identifier.name x) config.coding.standards.hydra.haskellPackages);
 
+          checks = lib.attrsets.mergeAttrsList [
+            (mkIf (hasFiles [ ".hs" ]) { inherit weeder; })
+            allWerrors
+          ];
+
           fourmolu-wrapped = pkgs.writeScriptBin "fourmolu" ''
             #!/bin/sh
             ${hcsPkgs.haskellPackages.fourmolu}/bin/fourmolu $@ \
@@ -147,7 +152,7 @@ in
                 package = hcsPkgs.statix;
               };
             };
-            checks = (mkIf (hasFiles [ ".hs" ]) { inherit weeder; }) // allWerrors;
+            inherit checks;
           };
     };
 }
