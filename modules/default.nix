@@ -106,27 +106,6 @@ in
             allWerrors
           ];
 
-          fourmolu-wrapped = pkgs.writeScriptBin "fourmolu" ''
-            #!/bin/sh
-            ${hcsPkgs.haskellPackages.fourmolu}/bin/fourmolu $@ \
-               --indentation 2 \
-               --comma-style leading \
-               --record-brace-space false \
-               --indent-wheres false \
-               --import-export-style "diff-friendly" \
-               --respectful true \
-               --haddock-style single-line \
-               --newlines-between-decls 1 \
-               --single-constraint-parens never \
-               --fixity "infixr 0 $" \
-               --fixity "infixr 1 &" \
-               --fixity "infixr 3 <|>" \
-               --fixity "infixr 2 ||" \
-               --fixity "infixr 3 &&" \
-               --fixity "infixr 1 <&>" \
-               --fixity "infixr 4 <$>" \
-               --fixity "infixr 4 <*>"
-          '';
         in
         with config.coding.standards.hydra; with pkgs.haskell.lib; mkIf enable
           {
@@ -137,7 +116,7 @@ in
               };
               fourmolu = {
                 enable = hasFiles [ ".hs" ];
-                package = fourmolu-wrapped;
+                package = hcsPkgs.haskellPackages.fourmolu;
               };
               hlint = {
                 enable = hasFiles [ ".hs" ];
