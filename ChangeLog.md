@@ -1,5 +1,9 @@
 # ChangeLog for `hydra-coding-standards`.
 
+## 0.4.1
+
+* Add `no-srp` check from `lint-utils`.
+
 ## 0.4.0
 
 * Remove `fourmolu` settings.

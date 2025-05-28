@@ -103,11 +103,19 @@ in
 
           checks = lib.attrsets.mergeAttrsList [
             (mkIf (hasFiles [ ".hs" ]) { inherit weeder; })
+            (mkIf (builtins.pathExists "${self}/cabal.project")
+              {
+                no-srp = pinnedInputs.lint-utils.linters.${system}.no-srp {
+                  src = self;
+                  cabal-project-file = "${self}/cabal.project";
+                };
+              })
             allWerrors
           ];
 
         in
-        with config.coding.standards.hydra; with pkgs.haskell.lib; mkIf enable
+        with config.coding.standards.hydra; with pkgs.haskell.lib; mkIf
+          enable
           {
             treefmt.programs = {
               cabal-fmt = {
