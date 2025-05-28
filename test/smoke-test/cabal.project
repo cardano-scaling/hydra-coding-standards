@@ -1,0 +1,3 @@
+packages: ./sample
+
+test-show-details: streaming
