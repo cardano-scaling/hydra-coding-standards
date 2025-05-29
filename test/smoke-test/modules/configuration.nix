@@ -1,5 +1,10 @@
 {
 
-  perSystem.coding.standards.hydra.enable = true;
+  perSystem = { pkgs, ... }: {
+    coding.standards.hydra = {
+      enable = true;
+      haskellPackages = [ pkgs.haskellPackages.hello ];
+    };
+  };
 
 }

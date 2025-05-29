@@ -11,6 +11,7 @@
     };
     treefmt-nix.url = "github:numtide/treefmt-nix";
     nixpkgs.url = "github:NixOS/nixpkgs";
+    werrorwolf.url = "git+https://gitlab.horizon-haskell.net/nix/werrorwolf";
   };
 
   outputs = inputs: inputs.flake-parts.lib.mkFlake { inherit inputs; } (inputs.import-tree ./modules);

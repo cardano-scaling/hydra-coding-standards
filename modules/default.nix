@@ -30,12 +30,16 @@ in
           coding.standards.hydra = {
             enable = mkEnableOption "hydra-coding-standards";
             haskellPackages = mkOption {
-              type = types.listOf types.attrs;
+              type = types.listOf types.package;
               default = [ ];
             };
             weeder = mkOption {
               type = types.package;
               default = pkgs.haskellPackages.weeder;
+            };
+            haskellType = mkOption {
+              type = types.enum [ "nixpkgs" "haskell.nix" ];
+              default = "nixpkgs";
             };
           };
         };
@@ -43,6 +47,7 @@ in
 
       imports = [
         pinnedInputs.treefmt-nix.flakeModule
+        pinnedInputs.werrorwolf.flakeModule
       ];
 
       config.perSystem = { system, pkgs, config, lib, ... }:
@@ -61,57 +66,14 @@ in
 
           cabalFiles = filterFiles (hasAnyExt [ ".cabal" ]);
 
-          addWerror = x: x.override { ghcOptions = [ "-Werror" ]; };
-
-          componentsToHieDirectories = x:
-            [ x.components.library.hie ]
-            ++ lib.concatLists
-              (map
-                (y:
-                  lib.mapAttrsToList
-                    (k: v:
-                      v.hie
-                    )
-                    x.components."${y}") [ "benchmarks" "exes" "sublibs" "tests" ]);
-
-          componentsToWeederArgs = x:
-            builtins.concatStringsSep " " (map (z: "--hie-directory ${z}") (componentsToHieDirectories x));
+          weederHieArgs = builtins.concatStringsSep " " (map (z: "--hie-directory ${z.hie}") config.coding.standards.hydra.haskellPackages);
 
           weeder = pkgs.runCommand "weeder" { buildInputs = [ config.coding.standards.hydra.weeder ]; } ''
             mkdir -p $out
-            weeder --config ${self}/weeder.toml \
-              ${builtins.concatStringsSep " " (map componentsToWeederArgs config.coding.standards.hydra.haskellPackages)}
+            weeder --config ${self}/weeder.toml ${weederHieArgs}
           '';
 
-          componentsToWerrors = n: x:
-            builtins.listToAttrs
-              [
-                {
-                  name = "${n}-werror";
-                  value = addWerror x.components.library;
-                }
-              ] // lib.attrsets.mergeAttrsList (map
-              (y:
-                lib.mapAttrs'
-                  (k: v: {
-                    name = "${n}-${y}-${k}-werror";
-                    value = addWerror v;
-                  })
-                  x.components."${y}") [ "benchmarks" "exes" "sublibs" "tests" ]);
-
-          allWerrors = lib.attrsets.mergeAttrsList (map (x: componentsToWerrors x.components.library.package.identifier.name x) config.coding.standards.hydra.haskellPackages);
-
-          checks = lib.attrsets.mergeAttrsList [
-            (mkIf (hasFiles [ ".hs" ]) { inherit weeder; })
-            (mkIf (builtins.pathExists "${self}/cabal.project")
-              {
-                no-srp = pinnedInputs.lint-utils.linters.${system}.no-srp {
-                  src = self;
-                  cabal-project-file = "${self}/cabal.project";
-                };
-              })
-            allWerrors
-          ];
+          wwpof = if config.coding.standards.hydra.haskellType == "haskell.nix" then { packageOverrideFunction = exts: pkg: pkg.override { ghcOptions = [ "-Werror" ]; }; } else { };
 
         in
         with config.coding.standards.hydra; with pkgs.haskell.lib; mkIf
@@ -139,7 +101,17 @@ in
                 package = hcsPkgs.statix;
               };
             };
-            inherit checks;
+            checks = (if (builtins.pathExists "${self}/cabal.project") then
+              {
+                no-srp = pinnedInputs.lint-utils.linters.${system}.no-srp {
+                  src = self;
+                  cabal-project-file = "${self}/cabal.project";
+                };
+              } else { }) // (if (hasFiles [ ".hs" ]) then { inherit weeder; } else { });
+            werrorwolf = {
+              enable = true;
+              packages = config.coding.standards.hydra.haskellPackages;
+            } // wwpof;
           };
     };
 }

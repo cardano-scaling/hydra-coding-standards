@@ -1,5 +1,10 @@
 # ChangeLog for `hydra-coding-standards`.
 
+## 0.5.0
+
+* Import `werrorwolf-0.3.0` and set `-Werror` checks correctly.
+* Add `haskellType` setting to switch between `nixpkgs` style and `haskell.nix` style.
+
 ## 0.4.1
 
 * Add `no-srp` check from `lint-utils`.
