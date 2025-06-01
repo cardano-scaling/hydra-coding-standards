@@ -432,6 +432,7 @@
       },
       "original": {
         "owner": "cardano-scaling",
+        "ref": "0.1.0",
         "repo": "weeder-part",
         "type": "github"
       }

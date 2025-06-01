@@ -1,5 +1,9 @@
 # ChangeLog for `hydra-coding-standards`.
 
+## 0.6.1
+
+* Switch to `weeder-part-0.1.0`.
+
 ## 0.6.0
 
 * Add `typos` check.
