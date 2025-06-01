@@ -447,13 +447,14 @@
       "locked": {
         "lastModified": 1748541837,
         "narHash": "sha256-c7BwQQpbjHh4FdFY+Ly9TzRZgWsY0JBgdGVcURGmHLI=",
-        "ref": "refs/heads/master",
+        "ref": "refs/tags/0.3.0",
         "rev": "9b388c6f91351e11cbd3f133409c678b6a09cb0e",
         "revCount": 16,
         "type": "git",
         "url": "https://gitlab.horizon-haskell.net/nix/werrorwolf"
       },
       "original": {
+        "ref": "refs/tags/0.3.0",
         "type": "git",
         "url": "https://gitlab.horizon-haskell.net/nix/werrorwolf"
       }
