@@ -48,6 +48,7 @@ in
       imports = [
         pinnedInputs.treefmt-nix.flakeModule
         pinnedInputs.werrorwolf.flakeModule
+        pinnedInputs.weeder-part.flakeModule
       ];
 
       config.perSystem = { system, pkgs, config, lib, ... }:
@@ -65,13 +66,6 @@ in
           filterFiles = f: builtins.filter f allFiles;
 
           cabalFiles = filterFiles (hasAnyExt [ ".cabal" ]);
-
-          weederHieArgs = builtins.concatStringsSep " " (map (z: "--hie-directory ${z.hie}") config.coding.standards.hydra.haskellPackages);
-
-          weeder = pkgs.runCommand "weeder" { buildInputs = [ config.coding.standards.hydra.weeder ]; } ''
-            mkdir -p $out
-            weeder --config ${self}/weeder.toml ${weederHieArgs}
-          '';
 
           wwpof = if config.coding.standards.hydra.haskellType == "haskell.nix" then { packageOverrideFunction = exts: pkg: pkg.override { ghcOptions = [ "-Werror" ]; }; } else { };
 
@@ -114,13 +108,17 @@ in
                 package = hcsPkgs.typos;
               };
             };
-            checks = (if (builtins.pathExists "${self}/cabal.project") then
+            checks = if (builtins.pathExists "${self}/cabal.project") then
               {
                 no-srp = pinnedInputs.lint-utils.linters.${system}.no-srp {
                   src = self;
                   cabal-project-file = "${self}/cabal.project";
                 };
-              } else { }) // (if (hasFiles [ ".hs" ]) then { inherit weeder; } else { });
+              } else { };
+            weeder = {
+              enable = hasFiles [ ".cabal" ];
+              inherit (config.coding.standards.hydra) checkPackages;
+            };
             werrorwolf = {
               enable = true;
               packages = config.coding.standards.hydra.haskellPackages;
