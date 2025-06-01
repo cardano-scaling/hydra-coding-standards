@@ -3,6 +3,7 @@
 ## 0.6.0
 
 * Add `typos` check.
+* Add `deadnix` check.
 
 ## 0.5.0
 

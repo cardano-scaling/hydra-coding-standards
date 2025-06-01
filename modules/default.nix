@@ -84,6 +84,10 @@ in
                 enable = hasFiles [ ".cabal" ];
                 package = hcsPkgs.haskellPackages.cabal-fmt;
               };
+              deadnix = {
+                enable = hasFiles [ ".nix" ];
+                package = hcsPkgs.deadnix;
+              };
               fourmolu = {
                 enable = hasFiles [ ".hs" ];
                 package = hcsPkgs.haskellPackages.fourmolu;
