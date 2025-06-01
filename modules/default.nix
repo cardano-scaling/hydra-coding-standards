@@ -15,7 +15,6 @@ in
       inherit (flake-parts-lib)
         mkPerSystemOption;
       inherit (lib)
-        mdDoc
         mkEnableOption
         mkIf
         mkOption
@@ -25,7 +24,7 @@ in
 
     {
 
-      options.perSystem = mkPerSystemOption ({ config, pkgs, ... }: {
+      options.perSystem = mkPerSystemOption ({ pkgs, ... }: {
         options = {
           coding.standards.hydra = {
             enable = mkEnableOption "hydra-coding-standards";
@@ -63,11 +62,7 @@ in
 
           hasFiles = exts: hasFilesMatching (hasAnyExt exts);
 
-          filterFiles = f: builtins.filter f allFiles;
-
-          cabalFiles = filterFiles (hasAnyExt [ ".cabal" ]);
-
-          wwpof = if config.coding.standards.hydra.haskellType == "haskell.nix" then { packageOverrideFunction = exts: pkg: pkg.override { ghcOptions = [ "-Werror" ]; }; } else { };
+          wwpof = if config.coding.standards.hydra.haskellType == "haskell.nix" then { packageOverrideFunction = _exts: pkg: pkg.override { ghcOptions = [ "-Werror" ]; }; } else { };
 
         in
         with config.coding.standards.hydra; with pkgs.haskell.lib; mkIf
