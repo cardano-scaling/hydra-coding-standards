@@ -100,6 +100,15 @@ in
                 enable = hasFiles [ ".nix" ];
                 package = hcsPkgs.statix;
               };
+              typos = {
+                enable = true;
+                includes = [
+                  "*.md"
+                  "*.hs"
+                  "*.cabal"
+                ];
+                package = hcsPkgs.typos;
+              };
             };
             checks = (if (builtins.pathExists "${self}/cabal.project") then
               {

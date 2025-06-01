@@ -1,5 +1,9 @@
 # ChangeLog for `hydra-coding-standards`.
 
+## 0.6.0
+
+* Add `typos` check.
+
 ## 0.5.0
 
 * Import `werrorwolf-0.3.0` and set `-Werror` checks correctly.
