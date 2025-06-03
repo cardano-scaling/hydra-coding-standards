@@ -1,5 +1,9 @@
 # ChangeLog for `hydra-coding-standards`.
 
+## 0.6.2
+
+* Make `srp-check` optional.
+
 ## 0.6.1
 
 * Switch to `weeder-part-0.1.0`.

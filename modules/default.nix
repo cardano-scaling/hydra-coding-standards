@@ -40,6 +40,10 @@ in
               type = types.enum [ "nixpkgs" "haskell.nix" ];
               default = "nixpkgs";
             };
+            srp-check = mkOption {
+              type = types.bool;
+              default = true;
+            };
           };
         };
       });
@@ -103,7 +107,7 @@ in
                 package = hcsPkgs.typos;
               };
             };
-            checks = if (builtins.pathExists "${self}/cabal.project") then
+            checks = if (builtins.pathExists "${self}/cabal.project" && config.coding.standards.hydra.srp-check) then
               {
                 no-srp = pinnedInputs.lint-utils.linters.${system}.no-srp {
                   src = self;
