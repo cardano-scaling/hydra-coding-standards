@@ -1,20 +1,11 @@
-{ inputs, ... }:
+local: {
 
-let
-  pinnedInputs = inputs;
-  pinnedPkgs = inputs.nixpkgs;
-
-in
-
-{
-
-  flake.flakeModule =
-    { self, config, inputs, lib, flake-parts-lib, ... }:
+  flake.flakeModule = caller:
 
     let
-      inherit (flake-parts-lib)
+      inherit (caller.flake-parts-lib)
         mkPerSystemOption;
-      inherit (lib)
+      inherit (caller.lib)
         mkEnableOption
         mkIf
         mkOption
@@ -49,16 +40,16 @@ in
       });
 
       imports = [
-        pinnedInputs.treefmt-nix.flakeModule
-        pinnedInputs.werrorwolf.flakeModule
-        pinnedInputs.weeder-part.flakeModule
+        local.inputs.treefmt-nix.flakeModule
+        local.inputs.werrorwolf.flakeModule
+        local.inputs.weeder-part.flakeModule
       ];
 
       config.perSystem = { system, pkgs, config, lib, ... }:
         let
-          allFiles = lib.filesystem.listFilesRecursive inputs.self;
+          allFiles = lib.filesystem.listFilesRecursive caller.self;
 
-          hcsPkgs = import pinnedPkgs { inherit system; };
+          hcsPkgs = import local.inputs.nixpkgs { inherit system; };
 
           hasAnyExt = exts: file: (lib.any (ext: lib.hasSuffix ext file) exts);
 
@@ -108,11 +99,11 @@ in
               };
             };
             checks =
-              if (builtins.pathExists "${self}/cabal.project" && config.coding.standards.hydra.srp-check) then
+              if (builtins.pathExists "${caller.self}/cabal.project" && config.coding.standards.hydra.srp-check) then
                 {
-                  no-srp = pinnedInputs.lint-utils.linters.${system}.no-srp {
-                    src = self;
-                    cabal-project-file = "${self}/cabal.project";
+                  no-srp = local.inputs.lint-utils.linters.${system}.no-srp {
+                    src = caller.self;
+                    cabal-project-file = "${caller.self}/cabal.project";
                   };
                 } else { };
             weeder = {
