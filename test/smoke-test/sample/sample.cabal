@@ -2,8 +2,7 @@ cabal-version:      3.8
 name:               sample
 version:            0.1.0.0
 synopsis:           Short description of your package
-description:
-  Please see the README at <url>
+description:        Please see the README at <url>
 category:           <category>
 author:             <author>
 maintainer:         <email>
@@ -21,7 +20,7 @@ source-repository head
 
 common lang
   build-depends:    base >=4.20 && <5
-  default-language: GHC2024
+  default-language: GHC2021
   ghc-options:
     -Weverything -Wno-all-missed-specialisations -Wno-implicit-prelude
     -Wno-missing-safe-haskell-mode -Wno-prepositive-qualified-module

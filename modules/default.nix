@@ -107,16 +107,18 @@ in
                 package = hcsPkgs.typos;
               };
             };
-            checks = if (builtins.pathExists "${self}/cabal.project" && config.coding.standards.hydra.srp-check) then
-              {
-                no-srp = pinnedInputs.lint-utils.linters.${system}.no-srp {
-                  src = self;
-                  cabal-project-file = "${self}/cabal.project";
-                };
-              } else { };
+            checks =
+              if (builtins.pathExists "${self}/cabal.project" && config.coding.standards.hydra.srp-check) then
+                {
+                  no-srp = pinnedInputs.lint-utils.linters.${system}.no-srp {
+                    src = self;
+                    cabal-project-file = "${self}/cabal.project";
+                  };
+                } else { };
             weeder = {
               enable = hasFiles [ ".cabal" ];
-              inherit (config.coding.standards.hydra) checkPackages;
+              checkPackages = config.coding.standards.hydra.haskellPackages;
+              addHieOutput = config.coding.standards.hydra.haskellType == "nixpkgs";
             };
             werrorwolf = {
               enable = true;

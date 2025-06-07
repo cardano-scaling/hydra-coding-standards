@@ -1,5 +1,10 @@
 # ChangeLog for `hydra-coding-standards`.
 
+## 0.6.3
+
+* Fix incorrect `weeder.checkPackages` argument.
+* Fix incorrect `weeder.addHieOutput` argument.
+
 ## 0.6.2
 
 * Make `srp-check` optional.

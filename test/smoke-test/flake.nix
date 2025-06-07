@@ -6,7 +6,7 @@
     get-flake.url = "github:ursi/get-flake";
     flake-parts.url = "github:hercules-ci/flake-parts";
     import-tree.url = "github:vic/import-tree";
-    nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
+    nixpkgs.url = "github:NixOS/nixpkgs/nixos-25.05";
     treefmt-nix.url = "github:numtide/treefmt-nix";
   };
 

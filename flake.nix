@@ -10,7 +10,7 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
     treefmt-nix.url = "github:numtide/treefmt-nix";
-    nixpkgs.url = "github:NixOS/nixpkgs";
+    nixpkgs.url = "github:NixOS/nixpkgs/nixos-25.05";
     weeder-part.url = "github:cardano-scaling/weeder-part/0.1.0";
     werrorwolf.url = "git+https://gitlab.horizon-haskell.net/nix/werrorwolf?ref=refs/tags/0.3.0";
   };
