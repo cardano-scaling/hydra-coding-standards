@@ -21,15 +21,16 @@
         "nixpkgs-lib": "nixpkgs-lib"
       },
       "locked": {
-        "lastModified": 1748821116,
-        "narHash": "sha256-F82+gS044J1APL0n4hH50GYdPRv/5JWm34oCJYmVKdE=",
+        "lastModified": 1748865829,
+        "narHash": "sha256-tYBdgS56eXYaWVW3fsnPQ/nFlgWi/Z2Ymhyu21zVM98=",
         "owner": "hercules-ci",
         "repo": "flake-parts",
-        "rev": "49f0870db23e8c1ca0b5259734a02cd9e1e371a1",
+        "rev": "ba8a81c1a070b168c07f3f16ef73b592cdf8abbb",
         "type": "github"
       },
       "original": {
         "owner": "hercules-ci",
+        "ref": "better-dogfooding",
         "repo": "flake-parts",
         "type": "github"
       }
