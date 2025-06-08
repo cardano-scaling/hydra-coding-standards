@@ -10,9 +10,9 @@ You can reformat with `nix fmt`.
 This combines the following flake-parts modules into a single module and sets
 defaults:
 
-[treefmt-nix](https://github.com/numtide/treefmt-nix)
-[weeder-part](https://github.com/cardano-scaling/weeder-part)
-[werrorwolf](https://gitlab.horizon-haskell.net/nix/werrorwolf)
+* [treefmt-nix](https://github.com/numtide/treefmt-nix)
+* [weeder-part](https://github.com/cardano-scaling/weeder-part)
+* [werrorwolf](https://gitlab.horizon-haskell.net/nix/werrorwolf)
 
 ## Usage
 
