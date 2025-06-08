@@ -1,0 +1,33 @@
+name: "CI"
+
+on:
+  push:
+    branches:
+    - master
+    - release
+  pull_request:
+
+jobs:
+  nix-flake-check:
+    name: "Nix Flake Check"
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        include:
+          - flake: ./.
+          - flake: ./test/smoke-test
+
+    steps:
+    - name: 📥 Checkout repository
+      uses: actions/checkout@v4
+
+    - name: ❄ Prepare nix
+      uses: cachix/install-nix-action@v30
+      with:
+        extra_nix_config: |
+          accept-flake-config = true
+          log-lines = 1000
+
+    - name: ❄ Nix Flake Check
+      run: |
+        nix flake check ${{ matrix.flake }} -L
