@@ -3,7 +3,7 @@
   description = "hydra-coding-standards - flake-parts module to set all coding checks and formatters for hydra projects.";
 
   inputs = {
-    flake-parts.url = "github:hercules-ci/flake-parts?ref=better-dogfooding";
+    flake-parts.url = "github:hercules-ci/flake-parts";
     import-tree.url = "github:vic/import-tree";
     lint-utils = {
       url = "github:homotopic/lint-utils";
