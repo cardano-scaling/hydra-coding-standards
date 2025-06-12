@@ -1,5 +1,9 @@
 # ChangeLog for `hydra-coding-standards`.
 
+## 0.6.4
+
+* Fix `flake-parts` input pin.
+
 ## 0.6.3
 
 * Fix incorrect `weeder.checkPackages` argument.
