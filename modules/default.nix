@@ -111,6 +111,7 @@ local: {
                 enable = hasFiles [ ".cabal" ];
                 checkPackages = config.coding.standards.hydra.haskellPackages;
                 addHieOutput = config.coding.standards.hydra.haskellType == "nixpkgs";
+                package = config.coding.standards.hydra.weeder;
               };
               werrorwolf = {
                 enable = true;
