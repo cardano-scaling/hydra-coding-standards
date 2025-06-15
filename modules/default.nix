@@ -119,6 +119,7 @@ local: {
               werrorwolf = {
                 enable = true;
                 packages = config.coding.standards.hydra.haskellPackages;
+                extra-flags = [ "-Wmissing-import-lists -Wmissing-local-signatures" ];
               } // wwpof;
             };
       }
