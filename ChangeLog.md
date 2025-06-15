@@ -1,5 +1,9 @@
 # ChangeLog for `hydra-coding-standards`.
 
+## 0.6.6
+
+* Add `*.agda`, `*.lagda`, `*.tex` to `typos` whitelist.
+
 ## 0.6.5
 
 * Fix missing weeder package argument.

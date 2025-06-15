@@ -95,6 +95,9 @@ local: {
                     "*.md"
                     "*.hs"
                     "*.cabal"
+                    "*.agda"
+                    "*.lagda"
+                    "*.tex"
                   ];
                   package = hcsPkgs.typos;
                 };
