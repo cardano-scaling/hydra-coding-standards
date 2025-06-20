@@ -58,7 +58,7 @@ local: {
 
             hasFiles = exts: hasFilesMatching (hasAnyExt exts);
 
-            wwpof = if config.coding.standards.hydra.haskellType == "haskell.nix" then { packageOverrideFunction = _exts: pkg: pkg.override { ghcOptions = [ "-Werror" ]; }; } else { };
+            wwpof = if config.coding.standards.hydra.haskellType == "haskell.nix" then { packageOverrideFunction = flags: pkg: pkg.override { ghcOptions = [ "-Werror" ] ++ flags; }; } else { };
 
           in
           with config.coding.standards.hydra; with pkgs.haskell.lib; mkIf
