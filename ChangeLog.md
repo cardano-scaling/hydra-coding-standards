@@ -1,5 +1,9 @@
 # ChangeLog for `hydra-coding-standards`.
 
+## 0.7.0
+
+* Set `-Wmissing-import-lists` and `-Wmissing-local-signatures` as part of `-Werror` checks.
+
 ## 0.6.6
 
 * Add `*.agda`, `*.lagda`, `*.tex` to `typos` whitelist.
