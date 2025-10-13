@@ -32,6 +32,10 @@ local: {
                 type = types.enum [ "nixpkgs" "haskell.nix" ];
                 default = "nixpkgs";
               };
+              haskellFormatter = mkOption {
+                type = types.enum [ "stylish-haskell" "fourmolu" "ormolu" ];
+                default = "fourmolu";
+              };
               srp-check = mkOption {
                 type = types.bool;
                 default = true;
@@ -74,7 +78,7 @@ local: {
                   package = hcsPkgs.deadnix;
                 };
                 fourmolu = {
-                  enable = hasFiles [ ".hs" ];
+                  enable = haskellFormatter == "fourmolu" && hasFiles [ ".hs" ];
                   package = hcsPkgs.haskellPackages.fourmolu;
                 };
                 hlint = {
@@ -85,9 +89,17 @@ local: {
                   enable = hasFiles [ ".nix" ];
                   package = hcsPkgs.nixpkgs-fmt;
                 };
+                ormolu = {
+                  enable = haskellFormatter == "ormolu" && hasFiles [ ".hs" ];
+                  package = hcsPkgs.haskellPackages.ormolu;
+                };
                 statix = {
                   enable = hasFiles [ ".nix" ];
                   package = hcsPkgs.statix;
+                };
+                stylish-haskell = {
+                  enable = haskellFormatter == "stylish-haskell" && hasFiles [ ".hs" ];
+                  package = hcsPkgs.haskellPackages.stylish-haskell;
                 };
                 typos = {
                   enable = true;

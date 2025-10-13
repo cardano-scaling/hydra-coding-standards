@@ -1,5 +1,9 @@
 # ChangeLog for `hydra-coding-standards`.
 
+## 0.7.1
+
+* Add `haskellFormatter` option to switch between `fourmolu`, `ormolu` and `stylish-haskell`.
+
 ## 0.7.0
 
 * Set `-Wmissing-import-lists` and `-Wmissing-local-signatures` as part of `-Werror` checks.
