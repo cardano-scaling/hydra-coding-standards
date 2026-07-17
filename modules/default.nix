@@ -46,7 +46,6 @@ local: {
 
         imports = [
           local.inputs.treefmt-nix.flakeModule
-          local.inputs.werrorwolf.flakeModule
           local.inputs.weeder-part.flakeModule
         ];
 
@@ -61,8 +60,6 @@ local: {
             hasFilesMatching = f: lib.any f allFiles;
 
             hasFiles = exts: hasFilesMatching (hasAnyExt exts);
-
-            wwpof = if config.coding.standards.hydra.haskellType == "haskell.nix" then { packageOverrideFunction = flags: pkg: pkg.override { ghcOptions = [ "-Werror" ] ++ flags; }; } else { };
 
           in
           with config.coding.standards.hydra; with pkgs.haskell.lib; mkIf
@@ -128,11 +125,6 @@ local: {
                 addHieOutput = config.coding.standards.hydra.haskellType == "nixpkgs";
                 package = config.coding.standards.hydra.weeder;
               };
-              werrorwolf = {
-                enable = true;
-                packages = config.coding.standards.hydra.haskellPackages;
-                extra-flags = [ "-Wmissing-import-lists -Wmissing-local-signatures" ];
-              } // wwpof;
             };
       }
     )

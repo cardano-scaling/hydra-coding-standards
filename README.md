@@ -12,7 +12,6 @@ defaults:
 
 * [treefmt-nix](https://github.com/numtide/treefmt-nix)
 * [weeder-part](https://github.com/cardano-scaling/weeder-part)
-* [werrorwolf](https://gitlab.horizon-haskell.net/nix/werrorwolf)
 
 ## Usage
 
@@ -54,8 +53,6 @@ Automatically enables and enforces `fourmolu`, `nixpkgs-fmt` and `cabal-fmt` for
 Automatically enables and enforces `statix` and `hlint` analysers if the respective filetypes are present.
 
 Automatically enables and enforces `weeder` checks for all listed packages.
-
-Automatically enables and enforces `-Werror` checks for all listed packages.
 
 Automatically prohibits `source-repository-packages` in `cabal.project` files.
 
