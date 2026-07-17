@@ -1,5 +1,9 @@
 # ChangeLog for `hydra-coding-standards`.
 
+## 0.8.0
+
+* Remove the `werrorwolf` module and its `gitlab.horizon-haskell.net` flake input. The module no longer generates `-Werror` checks; consumers should enforce `-Werror` natively (e.g. haskell.nix `ghcOptions = [ "-Werror" ]`).
+
 ## 0.7.1
 
 * Add `haskellFormatter` option to switch between `fourmolu`, `ormolu` and `stylish-haskell`.
